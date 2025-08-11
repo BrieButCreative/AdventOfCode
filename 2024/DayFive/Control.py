@@ -39,5 +39,31 @@ def redic(restrictions: list[str]) -> dict[int, int]:
     return retdic
 
 
+def controller(file: str) -> int:
+    '''
+    Checks how many 'pages' at the end of the file
+    are in the right order.
+    Returns the sum of the middle values of these.
+
+    >>> controller("testOrdering.txt")
+    143
+    '''
+    temp, sums = splicer(file), 0
+    orders, pages = temp[0], temp[1]
+    for lists in pages:
+        copy = []
+        for val in lists:
+            for i in orders.get(val, []):
+                if i not in copy and i in lists:
+                    break
+            else:
+                copy.append(val)
+                continue
+            break
+        if copy == lists:
+            sums += lists[len(lists) // 2]
+    return sums
+
+
 if __name__ == "__main__":
-    print(splicer("testOrdering.txt"))
+    print(controller("Ordering.txt"))
